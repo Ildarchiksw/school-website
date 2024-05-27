@@ -1,0 +1,50 @@
+const teachers = {
+    "kornishina": "sofakornishina",
+    "sadrutdinov": "ildarchiksw"
+};
+
+function login() {
+    const login = document.getElementById('login').value;
+    const password = document.getElementById('password').value;
+    
+    if (teachers[login] && teachers[login] === password) {
+        window.location.href = 'dashboard.html';
+    } else {
+        alert('Неверный логин или пароль');
+    }
+}
+
+let students = [];
+
+function addStudent() {
+    const studentName = document.getElementById('studentName').value;
+    if (studentName) {
+        students.push({ name: studentName, grades: [] });
+        updateStudentList();
+        document.getElementById('studentName').value = '';
+    }
+}
+
+function addGrade() {
+    const studentName = document.getElementById('studentNameForGrade').value;
+    const grade = document.getElementById('grade').value;
+    const student = students.find(s => s.name === studentName);
+    if (student && grade) {
+        student.grades.push(grade);
+        updateStudentList();
+        document.getElementById('studentNameForGrade').value = '';
+        document.getElementById('grade').value = '';
+    } else {
+        alert('Ученик не найден или некорректная оценка');
+    }
+}
+
+function updateStudentList() {
+    const studentList = document.getElementById('studentList');
+    studentList.innerHTML = '';
+    students.forEach(student => {
+        const li = document.createElement('li');
+        li.textContent = `${student.name}: ${student.grades.join(', ')}`;
+        studentList.appendChild(li);
+    });
+}
